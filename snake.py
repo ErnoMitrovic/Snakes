@@ -28,6 +28,15 @@ def inside(head):
     """Return True if head inside boundaries."""
     return -200 < head.x < 190 and -200 < head.y < 190
 
+def rand_food():
+    """Randomizes the position of the food by one square without leaving the window"""
+    # checks if the food is in the screen (in the x direction)
+    if food.x >= -150 and food.x <= 150:
+        food.x += randrange(-1,2) * 10
+    
+    # checks if the food is in the screen (in the y direction)
+    if food.y >= -150 and food.y <= 150:
+        food.y += randrange(-1,2) * 10
 
 def move():
     """Move snake forward one segment."""
@@ -41,12 +50,15 @@ def move():
 
     snake.append(head)
 
-    if head == food:
+    # Because of the randomization, the food could appear inside the snake
+    if head == food or food in snake:
         print('Snake:', len(snake))
         food.x = randrange(-15, 15) * 10
         food.y = randrange(-15, 15) * 10
     else:
         snake.pop(0)
+
+    rand_food()
 
     clear()
 
